@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PhishWatch Options</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f9f9f9;
+        background-image: url('images/Carbon_fiber.jpg');
+        background-size: cover;
+        max-width: 900px;
+        margin: 0 auto;
+
+    }
+
+    form {
+      display: grid;
+      gap: 40px; 
+      background: rgba(182, 182, 182, 0.792);
+      padding: 8px;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    label {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        font-size: 1rem;
+    }
+
+    img {
+        margin-left: 20px;
+        vertical-align: middle;
+        width: 125px;
+        height: 125px;
+        object-fit: cover;
+    }
+
+    button {
+      margin-left: 10px;
+      border-radius: 10px;
+    }
+
+    #coin {
+        width: 35px;
+        height: 35px;
+        vertical-align: middle;
+        margin-left: 2px;
+        margin-right: 0px;
+    }
+
+    #coinCount {
+      position: absolute;
+      top: 3%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 1.2rem;
+      color: rgb(0, 191, 255);
+    }
+
+    #save {
+        display: block; 
+        margin: 0 auto;
+        border-radius: 8px; 
+        background-color: rgb(207, 247, 207);
+        color: rgb(0, 0, 0);
+    }
+
+    #reset {
+        display: block; 
+        margin: 0 auto;
+        border-radius: 8px;
+        background-color: rgb(255, 212, 212);
+        color: rgb(0, 0, 0);
+    }
+
+    #freepik-link {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        position: absolute;
+        bottom: 10px;
+        left: 90%;
+        color:rgb(0, 191, 255);
+        text-decoration: none;
+    }
+
+    </style>
+  </head>
+  <body>
+    <span id="coinCount"></span>
+    <form id="themes">
+      <label>
+        <label>
+          <input type="radio" name="theme" value="default">
+          Default
+          <img src="images/icon.png" alt="Default Theme" width="50" height="50">
+          <img src="images/Phishing_gif.gif" alt="Default Theme" width="50" height="50">
+          <button id="purchase-default" disabled>00<img id="coin" src="images/Coin_no_back.png" alt="Coin"></button>
+        </label>
+        <div style="width: 20px;"></div>
+        <label>
+          <input type="radio" name="theme" value="default2">
+          Default2
+          <img src="images/icon.png" alt="default2" width="50" height="50">
+          <img src="images/default2_gif.gif" alt="default2" width="50" height="50">
+          <button id="purchase-default2">5<img id="coin" src="images/Coin_no_back.png" alt="Coin"></button>
+        </label>
+      </label>
+      <br>
+      <label>
+        <label>
+          <input type="radio" name="theme" value="medieval">
+          Medieval
+          <img src="images/Medieval_still.png" alt="medieval" width="50" height="50">
+          <img src="images/Medieval_gif.gif" alt="medieval" width="50" height="50">
+          <button id="purchase-medieval">10<img id="coin" src="images/Coin_no_back.png" alt="Coin"></button>
+        </label>
+        <div style="width: 20px;"></div>
+        <label>
+          <input type="radio" name="theme" value="retro">
+          Retro
+          <img src="images/Retro_still.png" alt="Retro Theme" width="50" height="50">
+          <img src="images/Retro_gif.gif" alt="Retro Theme" width="50" height="50">
+          <button id="purchase-retro">15<img id="coin" src="images/Coin_no_back.png" alt="Coin"></button>
+        </label>
+      </label>
+      <br>
+      <label>
+        <label>
+          <input type="radio" name="theme" value="futuristic">
+          Techno
+          <img src="images/futuristic1.gif" alt="Futuristic Theme" width="50" height="50">
+          <img src="images/futuristic2.gif" alt="Futuristic Theme" width="50" height="50">
+          <button id="purchase-futuristic">20<img id="coin" src="images/Coin_no_back.png" alt="Coin"></button>
+        </label>
+        <div style="width: 20px;"></div>
+        <label>
+          <input type="radio" name="theme" value="psycho">
+          Psycho
+          <img src="images/Parrot_gif.gif" alt="Psycho Theme" width="50" height="50">
+          <img src="images/Kitten_gif.gif" alt="Psycho Theme" width="50" height="50">
+          <button id="purchase-psycho">50<img id="coin" src="images/Coin_no_back.png" alt="Coin"></button>
+        </label>
+      </label>
+
+      <label>
+        <button id="reset">Restore Purchases</button>
+        <button id="save">Save Theme Choice</button> 
+      </label>
+    </form>
+
+    <label>
+    <a id="freepik-link"href="http://www.freepik.com">Carbon Fiber Background Designed by starline / Freepik</a>
+    </label>
+    <script src="options.js"></script>
+  </body>
+</html>
