@@ -1,4 +1,4 @@
-🛡️ Gmail Phishing Checker Extension
+🛡️ Gmail Email Summarizer
 
 A lightweight Google Chrome extension that protects users from suspicious emails directly inside Gmail — giving real-time insight into potential phishing risks using AI.
 
@@ -47,3 +47,4 @@ This behavior is expected and helps keep hosting costs low. For best performance
 📮 Contact & Security Reporting
 If you discover any vulnerabilities, accuracy concerns, or have suggestions to improve this application, please reach out directly at grantklein528@gmail.com
 "# Email_Summarizer" 
+
