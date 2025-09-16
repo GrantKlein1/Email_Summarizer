@@ -22,7 +22,7 @@ def analyze():
                 "Authorization": f"Bearer {os.getenv('GROQ_API_KEY')}"
             },
             json={
-                "model": "llama3-8b-8192",
+                "model": "llama-3.1-8b-instant",
                 "messages": [{"role": "user", "content": prompt}],
                 "temperature": 0.3                       #Adjusts the randomness of the response, lower values make it more deterministic
             },
@@ -41,6 +41,7 @@ def analyze():
         return jsonify({"result": result_text, "errors": errors})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 
 
