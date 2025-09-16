@@ -31,15 +31,16 @@ def analyze():
 
         result = response.json()
         
-        #result_text = result["choices"][0]["message"]["content"]
+        result_text = result["choices"][0]["message"]["content"]
         errors = ""
         if response.status_code == 503:
             errors = "Internal API server error. Please try again later."
         elif response.status_code == 429:
             errors = "API rate limit exceeded. Please wait 24 hours before trying again."
 
-        return jsonify({"result": result, "errors": errors})
+        return jsonify({"result": result_text, "errors": errors})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 
