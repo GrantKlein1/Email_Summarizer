@@ -12,21 +12,6 @@ def analyze():
     email_text = data.get("email", "")
     email_prompt = data.get("prompt", "")
     prompt = (f"{email_prompt} + {email_text}")
-    #Count the words in the email and send that to the model. Then have different ranges of summary lengths based on the word count.
-    #word_count = len(email_text.split())
-    # prompt = (
-    #     " You are an expert email summarizer agent trained to accurately, succinctly and effectively summarize emails."
-    #     " Follow these steps exactly for every email you analyze:"
-    #     " First I will give you the length of the email in words and you will respond within my specified range of summary lengths based on the word count."
-    #     " If the email is less than 50 words, respond with a summary between 10-20 words."
-    #     " If the email is between 50-100 words, respond with a summary between 20-40 words."
-    #     " If the email is between 100-200 words, respond with a summary between 40-70 words."
-    #     " If the email is between 200-500 words, respond with a summary between 70-100 words."
-    #     " If the email is over 500 words, respond with a summary between 100-150 words."
-    #     f" The email I will provide you is {word_count} words long."
-    #     " Analyze the email below and provide a summary."
-    # f"EMAIL:\n{email_text}"
-    # )
 
     try:
         print("🔍 Sending request to Groq API...")
@@ -46,14 +31,15 @@ def analyze():
 
         result = response.json()
         
-        result_text = result["choices"][0]["message"]["content"]
+        #result_text = result["choices"][0]["message"]["content"]
         errors = ""
         if response.status_code == 503:
             errors = "Internal API server error. Please try again later."
         elif response.status_code == 429:
             errors = "API rate limit exceeded. Please wait 24 hours before trying again."
 
-        return jsonify({"result": result_text, "errors": errors})
+        return jsonify({"result": result, "errors": errors})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
