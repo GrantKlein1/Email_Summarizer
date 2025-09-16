@@ -24,7 +24,7 @@ def analyze():
             json={
                 "model": "llama-3.1-8b-instant",
                 "messages": [{"role": "user", "content": prompt}],
-                "temperature": 0.3                       #Adjusts the randomness of the response, lower values make it more deterministic
+                "temperature": 0.1                       #Adjusts the randomness of the response, lower values make it more deterministic
             },
             timeout=5 
         )
@@ -41,6 +41,7 @@ def analyze():
         return jsonify({"result": result_text, "errors": errors})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 
 
