@@ -1,5 +1,6 @@
 📬 ZenBox – Your Inbox, Minus the Chaos
 
+
 A lightweight Google Chrome extension that helps you process emails faster by summarizing them directly inside Gmail — powered by Groq’s lightning-fast LLM.
 
 ✨ Highlights
@@ -27,7 +28,6 @@ Nothing extra — no greetings, subject lines, or repeated content
 The result is displayed seamlessly at the top of your email for quick reading.
 
 
-
 📦 Installation
 
 *Chrome Store Version Coming Soon!
@@ -44,7 +44,7 @@ Enable "Developer Mode" in the top right corner
 
 Click "Load unpacked" in the top left corner
 
-Very Important: Double click on the Email_Summarizer-main folder, Double click again on the Email_Summarizer-main and select (single click) the "extension" folder that is inside of it
+Very Important: Double click on the Email_Summarizer-main folder, Double click again on the Email_Summarizer-main folder and select (single click) the "extension" folder that is inside
 
 You're good to go! Open an email in Gmail and click the extension's button to run
 
@@ -53,13 +53,18 @@ You're good to go! Open an email in Gmail and click the extension's button to ru
 ZenBox is designed with privacy in mind:
 
 🚫 No data storage – Emails are never logged, saved, or stored
+
 📡 Secure transmission – All communication with the Groq backend is HTTPS encrypted
+
 🎯 Only what you see is processed – ZenBox analyzes only the currently opened email
+
 🕵️ No personal information extraction – Only text content is summarized
-✅ Minimal permissions – Reads Gmail DOM only when active
+
+✅ Minimal permissions – Reads Gmail DOM (email holder) only when the button is clicked
+
 
 🎨 Customize with the Options Page:
-Every time you summarize an email, you earn a Zenite — a small reward for staying organized. Collect Zenites to unlock unique color themes for your summary box via the Options page.
+Every time you summarize an email, you earn a Zenite — a small reward for staying organized. Collect Zenite to unlock unique color themes for your summary box via the Options page.
 
 To access the Options page:
 
@@ -68,6 +73,7 @@ Right-click the ZenBox icon in your Chrome toolbar
 Select Options from the dropdown menu
 
 ⚠️ Common Issues, Solutions, and Disclaimers:
+
 Slow Initial Response Time: This project is supported by a free tier backend web server that features a cold start delay. This means that the first summarize request may be delayed up to 1 minute. Once the server has spun up then all further responses for the next 15 minutes will be close to instantaneous. If no requests beyond the first one is made within that 15 minute time span then the server will spin down again and all further requests will require a spin up delay before responding.
 
 Empty Summary: If ZenBox shows no summary, Gmail’s DOM may not have fully loaded yet.
@@ -79,5 +85,6 @@ Platform Disclaimer: This extension has been thoroughly tested on Windows. macOS
 
 📮 Contact & Feedback
 Found a bug, accuracy issue, or have an idea to make ZenBox even better? Contact me at grantklein528@gmail.com
+
 
 
