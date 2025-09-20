@@ -5,13 +5,18 @@ A lightweight Google Chrome extension that helps you process emails faster by su
 ✨ Highlights
 
 🧠 Smart AI Summaries – Condenses even long, complex emails into 1–3 clear sentences
+
 📌 Action Items Extracted – Lists 1–3 concise, actionable next steps from the email
+
 📊 Adaptive Word Count – Summaries scale based on email length for perfect brevity
+
 🎯 No Fluff, No Greetings – Only the main message and key points are returned
+
 ⚡ Instant Results – Summaries are injected directly into the email body
 
+
 ❓ How Does It Work?
-This extension reads the Gmail email body in the DOM and sends the full content to a Groq LLM-powered summarization backend. The backend returns:
+ This extension reads the Gmail email body in the DOM and sends the full content to a Groq LLM-powered summarization backend. The backend returns:
 
 A concise, plain-text summary that respects strict word-length rules
 
@@ -21,19 +26,29 @@ Nothing extra — no greetings, subject lines, or repeated content
 
 The result is displayed seamlessly at the top of your email for quick reading.
 
+
 🔧 How to Use ZenBox in Gmail:
 
-Download the extension from the Chrome Web Store
+📦 Installation
 
-Open any email in your Gmail inbox
+*Chrome Store Version Coming Soon!
 
-Click the puzzle piece icon 🧩 in the top-right corner of Chrome
+*For now follow these instructions for installation
 
-Select “ZenBox” from the dropdown list
+Download the extension .zip file or clone this repo
 
-(Optional) Click the 📌 pin icon to add it to your toolbar
+Extract the project folder ("Phishing-Checker-Extension-main")
 
-Click Summarize to instantly see a concise summary + action items
+Go to chrome://extensions in your browser
+
+Enable "Developer Mode" in the top right corner
+
+Click "Load unpacked" in the top left corner
+
+Very Important: Double click on the Phishing-Checker-Extension-main folder and select (single click) the Phishing-Checker-Extension-main folder that is inside of it
+
+You're good to go! Open an email in Gmail and click the extension's button to run
+
 
 🔐 User Data & Security:
 ZenBox is designed with privacy in mind:
@@ -65,3 +80,4 @@ Platform Disclaimer: This extension has been thoroughly tested on Windows. macOS
 
 📮 Contact & Feedback
 Found a bug, accuracy issue, or have an idea to make ZenBox even better? Contact me at grantklein528@gmail.com
+
