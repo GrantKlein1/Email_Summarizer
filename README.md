@@ -27,7 +27,6 @@ Nothing extra — no greetings, subject lines, or repeated content
 The result is displayed seamlessly at the top of your email for quick reading.
 
 
-🔧 How to Use ZenBox in Gmail:
 
 📦 Installation
 
@@ -37,7 +36,7 @@ The result is displayed seamlessly at the top of your email for quick reading.
 
 Download the extension .zip file or clone this repo
 
-Extract the project folder ("Phishing-Checker-Extension-main")
+Extract the project folder ("Email_Summarizer-main")
 
 Go to chrome://extensions in your browser
 
@@ -45,7 +44,7 @@ Enable "Developer Mode" in the top right corner
 
 Click "Load unpacked" in the top left corner
 
-Very Important: Double click on the Phishing-Checker-Extension-main folder and select (single click) the Phishing-Checker-Extension-main folder that is inside of it
+Very Important: Double click on the Email_Summarizer-main folder, Double click again on the Email_Summarizer-main and select (single click) the "extension" folder that is inside of it
 
 You're good to go! Open an email in Gmail and click the extension's button to run
 
@@ -80,4 +79,5 @@ Platform Disclaimer: This extension has been thoroughly tested on Windows. macOS
 
 📮 Contact & Feedback
 Found a bug, accuracy issue, or have an idea to make ZenBox even better? Contact me at grantklein528@gmail.com
+
 
