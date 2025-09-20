@@ -1,7 +1,7 @@
 chrome.storage.local.get({ coinCount: 0 }, (items) => {
     const coinCount = items.coinCount;
     const coinCountElement = document.getElementById("coinCount");
-    coinCountElement.innerText = `Scamites: ${coinCount}`;
+    coinCountElement.innerText = `Zenites: ${coinCount}`;
   });
 
 document.querySelectorAll('button').forEach((button) => {
@@ -148,4 +148,5 @@ const buttonManager = () => {
 document.addEventListener('DOMContentLoaded', () => {
   restoreOptions();
   buttonManager();
+
 });
