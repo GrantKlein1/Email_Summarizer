@@ -4,16 +4,47 @@ function extractEmailBody() {
   if (emailElement) {
     let emailBody = emailElement.innerText;
     const word_count = emailBody.split(/\s+/).length;
-    let emailPrompt =  " You are an expert email summarizer agent trained to accurately, succinctly and effectively summarize emails."
-         " Follow these steps exactly for every email you analyze:"
-         " First I will give you the length of the email in words and you will respond within my specified range of summary lengths based on the word count."
-         " If the email is less than 50 words, respond with a summary between 10-20 words."
-         " If the email is between 50-100 words, respond with a summary between 20-40 words."
-         " If the email is between 100-200 words, respond with a summary between 40-70 words."
-         " If the email is between 200-500 words, respond with a summary between 70-100 words."
-         " If the email is over 500 words, respond with a summary between 100-150 words."
-         " The email I will provide you is " + word_count + " words long."
-         " Analyze the email below and provide a summary.";
+    let emailPrompt =  "You are an expert email summarizer. Read the email carefully and respond following these exact rules:" +
+      "1. Ignore greetings, sign-offs, signatures, and 'from' fields. Only focus on the main message content." +
+      "2. The email length is " + word_count + " words. Write a summary that strictly follows this format:" +
+      "   - If email length is under 50 then write a ONE sentence summary totaling 10-20 words MAX." +
+      "   - If email length is 50-100 then write a ONE sentence summary totaling 15-30 words MAX." +
+      "   - If email length is 100-200 then write TWO sentences summary totaling 30-55 words MAX." +
+      "   - If email length is 200-500 then write TWO or THREE sentences summary totaling 45-60 words MAX."  +
+      "   - If email length is over 500 then write THREE sentences summary totaling 50-75 words MAX."  +
+      "3. After the summary, print a blank line then IF there are actionable items in the email then list 1-3 brief and specific action items (≤ 15 words each)."  +
+      "   - ALWAYS use bullet points for action items." +
+      "   - INCLUDE the dates, times, names and details needed to complete each action item." +
+      "   - If there are no action items, write exactly: 'No action items needed.' NOTHING MORE OR LESS." +
+      "4. Your entire response must be plain text." +
+      "   - NO titles, NO headings, NO labels (like 'Subject:' or 'Key Points:')."  +
+      "   - NO restating of the prompt."  +
+      "   - NO text after the action items — end your response immediately after them." +
+      "   - NO INTRODUCTIONS, NO CONCLUSIONS, NO APOLOGIES."  +
+      "   - NO use of bullet points or lists in the summary, ONLY in action items." +
+      "   - DO NOT have any subject line at the top or any where in your response"  +
+      "   - DO NOT use any special characters or emojis." +
+      "   - DO NOT fabricate any information — if uncertain, omit it entirely." +
+      "   - WHEN possible, include dates, times, names, and details ONLY if they are **explicitly written verbatim in the email text.**" +
+      "   - NEVER infer, guess, or assume dates, times, or deadlines. If the date/time is not explicitly present, do not mention it." +
+      "   - DO NOT say anything like 'Here is the summary' or 'The action items are'. ONLY provide the summary and action items." +
+      "Respond ONLY with the summary and action items (if needed), nothing else. Do not copy any part of the original email word-for-word except essential facts."  +
+      "I am directly inserting your response into the email body so ensure that there is no title or extra text anywhere."  +
+      "I will now provide you with some ideal action item examples to learn from. DO NOT REPEAT THESE EXAMPLES IN YOUR RESPONSE." +
+      "Example 1: Reply to confirm meeting time tomorrow at 3 PM" +
+      "Example 2: Add charity event on the January 14th to calendar"  +
+      "Example 3: Forward to <manager_name_here> for review"  +
+      "Example 4: Prepare financial analysis of company XYZ slides before Friday" +
+      "Example 5: Update LLM project status in tracker" +
+      "Example 6: Submit quiz wireframes assignment before midnight today" +
+      "Example 7: Review attached notes" +
+      "Example 8: Sign up for study group" +
+      "Example 9: Schedule follow-up call with Boston well digging client" +
+      "Example 10: Prepare for upcoming art history presentation" +
+      "Finally your email should NOT be an email format in itself. It should be a plain text summary and action items only." +
+      "There should be no greetings, no sign-offs, no 'from' fields, no titles, no extra text, and no repetition of the original email." +
+      "ONLY LIST THE SUMMARY AND ACTION ITEMS AS DIRECTED." +
+      "Analyze the following email and provide your output:";
 
     const subjectElement = document.querySelector('h2.hP');
     const subject = subjectElement ? subjectElement.innerText : 'Subject not found';
@@ -151,3 +182,4 @@ function isMaliciousEmail(emailBody) {
 }
 
 extractEmailBody();
+
