@@ -3,48 +3,7 @@ function extractEmailBody() {
 
   if (emailElement) {
     let emailBody = emailElement.innerText;
-    const word_count = emailBody.split(/\s+/).length;
-    let emailPrompt =  "You are an expert email summarizer. Read the email carefully and respond following these exact rules:" +
-      "1. Ignore greetings, sign-offs, signatures, and 'from' fields. Only focus on the main message content." +
-      "2. The email length is " + word_count + " words. Write a summary that strictly follows this format:" +
-      "   - If email length is under 50 then write a ONE sentence summary totaling 10-20 words MAX." +
-      "   - If email length is 50-100 then write a ONE sentence summary totaling 15-30 words MAX." +
-      "   - If email length is 100-200 then write TWO sentences summary totaling 30-55 words MAX." +
-      "   - If email length is 200-500 then write TWO or THREE sentences summary totaling 45-60 words MAX."  +
-      "   - If email length is over 500 then write THREE sentences summary totaling 50-75 words MAX."  +
-      "3. After the summary, print a blank line then IF there are actionable items in the email then list 1-3 brief and specific action items (≤ 15 words each)."  +
-      "   - ALWAYS use bullet points for action items." +
-      "   - INCLUDE the dates, times, names and details needed to complete each action item." +
-      "   - If there are no action items, write exactly: 'No action items needed.' NOTHING MORE OR LESS." +
-      "4. Your entire response must be plain text." +
-      "   - NO titles, NO headings, NO labels (like 'Subject:' or 'Key Points:')."  +
-      "   - NO restating of the prompt."  +
-      "   - NO text after the action items — end your response immediately after them." +
-      "   - NO INTRODUCTIONS, NO CONCLUSIONS, NO APOLOGIES."  +
-      "   - NO use of bullet points or lists in the summary, ONLY in action items." +
-      "   - DO NOT have any subject line at the top or any where in your response"  +
-      "   - DO NOT use any special characters or emojis." +
-      "   - DO NOT fabricate any information — if uncertain, omit it entirely." +
-      "   - WHEN possible, include dates, times, names, and details ONLY if they are **explicitly written verbatim in the email text.**" +
-      "   - NEVER infer, guess, or assume dates, times, or deadlines. If the date/time is not explicitly present, do not mention it." +
-      "   - DO NOT say anything like 'Here is the summary' or 'The action items are'. ONLY provide the summary and action items." +
-      "Respond ONLY with the summary and action items (if needed), nothing else. Do not copy any part of the original email word-for-word except essential facts."  +
-      "I am directly inserting your response into the email body so ensure that there is no title or extra text anywhere."  +
-      "I will now provide you with some ideal action item examples to learn from. DO NOT REPEAT THESE EXAMPLES IN YOUR RESPONSE." +
-      "Example 1: Reply to confirm meeting time tomorrow at 3 PM" +
-      "Example 2: Add charity event on the January 14th to calendar"  +
-      "Example 3: Forward to <manager_name_here> for review"  +
-      "Example 4: Prepare financial analysis of company XYZ slides before Friday" +
-      "Example 5: Update LLM project status in tracker" +
-      "Example 6: Submit quiz wireframes assignment before midnight today" +
-      "Example 7: Review attached notes" +
-      "Example 8: Sign up for study group" +
-      "Example 9: Schedule follow-up call with Boston well digging client" +
-      "Example 10: Prepare for upcoming art history presentation" +
-      "Finally your email should NOT be an email format in itself. It should be a plain text summary and action items only." +
-      "There should be no greetings, no sign-offs, no 'from' fields, no titles, no extra text, and no repetition of the original email." +
-      "ONLY LIST THE SUMMARY AND ACTION ITEMS AS DIRECTED." +
-      "Analyze the following email and provide your output:";
+    emailBody = "~" + emailBody;
 
     const subjectElement = document.querySelector('h2.hP');
     const subject = subjectElement ? subjectElement.innerText : 'Subject not found';
@@ -52,13 +11,24 @@ function extractEmailBody() {
     const senderElement = document.querySelector('.gD');
     const sender = senderElement ? senderElement.getAttribute('email') : 'Sender not found';
 
-    generateEmailHash(sender, subject).then(emailHash => {
+    const emailBodyLength = emailBody.length;
+    console.log(`✉️ Email Length: ${emailBodyLength} characters`);
+    
+    generateEmailHash(sender, subject, emailBody).then(emailHash => {
     checkEmailHash(emailHash, (alreadyChecked) => {
-      console.log("🔍 Checking email with saved hash");
     if (alreadyChecked) {
-      console.log("⚠️ This email has already been checked.");
+      emailBody = "";
+      console.warn("⚠️ This email has already been checked.");
+      const cautionElements = document.createElement("div");
+      cautionElements.style.color = "red";
+      cautionElements.style.fontWeight = "bold";
+      cautionElements.style.marginBottom = "5px";
+      cautionElements.style.fontSize = "14px";
+      cautionElements.innerText = "⚠️ This email has already been checked";
+      emailElement.prepend(cautionElements);
       return;
     }
+    console.log("✅ Email is new, proceeding with check");
 
     console.log("📧 Extracted Email Body:\n", emailBody);
 
@@ -69,12 +39,12 @@ function extractEmailBody() {
     }
 
     chrome.runtime.sendMessage(
-      { type: "CHECK_EMAIL", content: emailBody, prompt: emailPrompt },
+      { type: "CHECK_EMAIL", content: emailBody},
       (response) => {
         if (chrome.runtime.lastError) {
           console.error("❌ Runtime error:", chrome.runtime.lastError.message);
         } else {
-          console.log("📨 Background Responded ");
+          console.log("📨 Background Responded " + response.data.result);
 
           if (isMaliciousEmail(emailBody)) {
             emailBody = "";
@@ -96,22 +66,57 @@ function extractEmailBody() {
             cautionElements.style.fontSize = "14px";
             cautionElements.innerText = "Internal API server error. Please try again later.";
             emailElement.prepend(cautionElements);
-          } else if (response.data.errors === "API rate limit exceeded. Please wait 24 hours before trying again.") {
+          } else if (response.data.errors === "API rate limit exceeded. Please wait 24 hours before trying again") {
             const cautionElements = document.createElement("div");
             cautionElements.style.color = "red";
             cautionElements.style.fontWeight = "bold";
             cautionElements.style.marginBottom = "5px";
             cautionElements.style.fontSize = "14px";
-            cautionElements.innerText = "API rate limit exceeded. Please wait 24 hours before trying again.";
+            cautionElements.innerText = "API rate limit exceeded. Please wait 24 hours before trying again";
             emailElement.prepend(cautionElements);
           }
 
           const resultElement = document.createElement("div");
-          resultElement.style.color = "black";
-          resultElement.style.fontWeight = "bold";
-          resultElement.style.marginBottom = "5px";
-          resultElement.style.fontSize = "16px";
-          resultElement.innerText = `Summarized Result: ${response.data.result}`;
+          
+          // Parse plain text response to extract summary and action items
+          let summary = '';
+          let actionItems = [];
+          
+          const responseText = response.data.result.trim();
+          const lines = responseText.split('\n');
+          
+          let summaryLines = [];
+          let actionLines = [];
+          let foundActionItems = false;
+          
+          for (let line of lines) {
+            const trimmedLine = line.trim();
+            
+            // Check if line starts with bullet point (•, -, *, or numbered)
+            if (/^[•\-\*]/.test(trimmedLine) || /^\d+[\.\)]/.test(trimmedLine)) {
+              foundActionItems = true;
+              // Remove bullet point and add to action items
+              const cleanedAction = trimmedLine.replace(/^[•\-\*]\s*/, '').replace(/^\d+[\.\)]\s*/, '');
+              if (cleanedAction && cleanedAction.toLowerCase() !== 'no action items needed.' && cleanedAction.toLowerCase() !== 'no action items needed') {
+                actionLines.push(cleanedAction);
+              }
+            } else if (!foundActionItems && trimmedLine) {
+              // Before we find action items, add to summary
+              summaryLines.push(trimmedLine);
+            } else if (foundActionItems && trimmedLine && trimmedLine.toLowerCase().includes('no action items')) {
+              // Don't add "No action items needed" to the list
+              continue;
+            }
+          }
+          
+          summary = summaryLines.join(' ');
+          actionItems = actionLines;
+          
+          console.log("📝 Parsed Summary:", summary);
+          console.log("✅ Parsed Action Items:", actionItems);
+          
+          // Generate and inject the modern tag HTML
+          resultElement.innerHTML = generateModernTagHTML(summary, actionItems);
 
           emailElement.prepend(resultElement);
           console.log("✅ Result injected at the top of email body");
@@ -149,11 +154,9 @@ function checkEmailHash(emailHash, callback) {
   );
 }
 
-function generateEmailHash(sender, subject) {
-  const senderWordCount = sender.split(/\s+/).length;
-  const subjectWordCount = subject.split(/\s+/).length;
-
-  const hashInput = `${senderWordCount}-${subjectWordCount}`;
+function generateEmailHash(sender, subject, emailBody) {
+  // Combine sender, subject, and actual email body content for hashing
+  const hashInput = `${sender}-${subject}-${emailBody}`;
 
   // Generate a SHA-256 hash
   return crypto.subtle.digest("SHA-256", new TextEncoder().encode(hashInput))
@@ -181,5 +184,38 @@ function isMaliciousEmail(emailBody) {
   return patterns.some(pattern => pattern.test(emailBody));
 }
 
-extractEmailBody();
+function generateModernTagHTML(summary, actionItems) {
+  let actionList = '';
+  
+  if (actionItems && actionItems.length > 0) {
+    actionList = actionItems.map(item => 
+      `<div style="display: flex; align-items: start; margin-bottom: 6px;">
+         <span style="color: #188038; margin-right: 8px; font-weight: bold;">&#10003;</span> 
+         <span>${item}</span>
+       </div>`
+    ).join('');
+  }
 
+  return `
+    <div style="
+      font-family: Roboto, sans-serif;
+      padding: 12px 0;
+      margin-bottom: 15px;
+      border-bottom: 1px dashed #ccc;">
+      
+      <div style="margin-bottom: 12px;">
+        <span style="background: #e8f0fe; color: #1967d2; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-right: 8px; vertical-align: middle;">TL;DR</span>
+        <span style="font-size: 14px; color: #202124; vertical-align: middle;">${summary}</span>
+      </div>
+
+      ${actionList ? `<div style="background: #fdfdfd; border: 1px solid #eee; padding: 10px; border-radius: 6px;">
+        <div style="font-size: 12px; font-weight: bold; color: #5f6368; margin-bottom: 6px;">SUGGESTED ACTIONS</div>
+        <div style="font-size: 13px; color: #333;">
+          ${actionList}
+        </div>
+      </div>` : ''}
+    </div>
+  `;
+}
+
+extractEmailBody();
