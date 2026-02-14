@@ -1,66 +1,139 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Phishing Checker</title>
+    <title>Zenbox</title>
     <style>
+      * {
+        box-sizing: border-box;
+      }
+
       body {
         margin: 0;
-        padding: 0;
+        padding: 8px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         background-size: cover;
         background-position: center;
-        height: 100vh;
+        width: fit-content;
         display: flex;
         justify-content: center;
         align-items: center;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
       }
 
       .gif-button {
-        width: 100px;
-        height: 100px;
+        width: 120px;
+        height: 120px;
         border: none;
         cursor: pointer;
-        background-size: cover;
+        background-size: 100%;
+        background-repeat: no-repeat;
         background-position: center;
+        border-radius: 16px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 
+                    0 2px 4px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .gif-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), 
+                    0 4px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      .gif-button:active {
+        transform: translateY(0);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
       }
 
       .gif-button.playing {
         background-size: cover;
         background-position: center;
+        animation: pulse 0.5s ease-in-out;
+      }
+
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
       }
 
       .gif-button span {
         position: absolute;
-        top: 35%;             /*Change this value to center vertically*/
+        top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
-        color: black;
-        font-size: 1rem;
-        font-weight: bold;
-        text-shadow: 0 0 10px rgb(0, 191, 255), 0 0 20px rgb(0, 191, 255), 0 0 30px rgb(0, 191, 255);
+        color: white;
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5),
+                     0 0 10px rgb(0, 191, 255), 
+                     0 0 20px rgb(0, 191, 255);
         z-index: 1;
-    }
+        pointer-events: none;
+      }
 
       #coinCount {
         background-image: url('images/Carbon_fiber.jpg');
         background-size: cover;
         background-clip: padding-box; 
-        padding: 5px;
+        padding: 12px 10px;
         text-align: center;
-        margin: 0;
-        color: rgb(0, 191, 255);
+        color: rgb(0, 255, 255);
         font-size: 1rem;
-    }
+        font-weight: 600;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3),
+                    inset 0 1px 2px rgba(255, 255, 255, 0.1);
+        width: 100%;
+        max-width: 200px;
+        text-shadow: 0 0 8px rgb(0, 191, 255);
+        border: 1px solid rgba(0, 191, 255, 0.3);
+        backdrop-filter: blur(10px);
+      }
+
+      .notification {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.9);
+        color: white;
+        padding: 16px 24px;
+        border-radius: 12px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        z-index: 1000;
+        text-align: center;
+      }
+
+      .notification.show {
+        opacity: 1;
+      }
       
     </style>
   </head>
   <body>
-    <span>
+    <div class="container">
       <button id="checkBtn" class="gif-button">
-        <span>Scan</span>
+        <span>Summarize</span>
       </button>
       <div id="coinCount"></div>
-    </span>
+      <div id="notification" class="notification"></div>
+    </div>
     <script src="popup.js"></script>
   </body>
 </html>
