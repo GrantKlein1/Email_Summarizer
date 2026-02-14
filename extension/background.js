@@ -11,6 +11,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       // If not already checked, add it to the list and update local storage
       if (!alreadyChecked) {
         checkedEmails.push(emailHash);
+        
+        // Limit to 25 hashes, remove oldest if exceeded
+        if (checkedEmails.length > 25) {
+          checkedEmails.shift(); // Remove the first (oldest) hash
+          console.log("🗑️ Removed oldest email hash to maintain 25-hash limit.");
+        }
+        
         chrome.storage.local.set({ checkedEmails }, () => {
           console.log("✅ Email hash added to local storage.");
         });
@@ -22,10 +29,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
   if (message.type === "CHECK_EMAIL") {
     const url = "https://phishing-checker-o6nk.onrender.com/analyze";
-    const payload = JSON.stringify({ email: message.content, prompt: message.prompt});
-
-    //console.log("📡 Sending POST to:", url);
-    //console.log("🧾 With payload:", payload);
+    const payload = JSON.stringify({ email: message.content});
 
     fetch(url, {
       method: "POST",
