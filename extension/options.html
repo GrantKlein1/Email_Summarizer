@@ -1,166 +1,370 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>PhishWatch Options</title>
+    <title>Zenbox Options</title>
     <style>
+    * {
+        box-sizing: border-box;
+    }
+
     body {
-        font-family: Arial, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        background-color: #1a1a2e;
+        background-image: url('images/Carbon_fiber.jpg');
+        background-size: cover;
+        background-attachment: fixed;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        background-color: #f9f9f9;
-        background-image: url('images/Carbon_fiber.jpg');
-        background-size: cover;
-        max-width: 900px;
-        margin: 0 auto;
+    }
 
+    .container {
+        max-width: 1000px;
+        width: 100%;
+        position: relative;
     }
 
     form {
-      display: grid;
-      gap: 40px; 
-      background: rgba(182, 182, 182, 0.792);
-      padding: 8px;
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 24px; 
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 32px;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+                  0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .theme-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        padding: 0;
     }
     
-    label {
-        margin-bottom: 10px;
+    .theme-option {
         display: flex;
         align-items: center;
+        padding: 16px;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        border-radius: 12px;
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        gap: 12px;
+    }
+
+    .theme-option:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        border-color: rgba(0, 191, 255, 0.3);
+    }
+
+    .theme-option input[type="radio"] {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        accent-color: #00bfff;
+    }
+
+    .theme-option input[type="radio"]:checked + .theme-content {
+        font-weight: 600;
+    }
+
+    .theme-option:has(input:checked) {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-color: #00bfff;
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        color: white;
+    }
+
+    .theme-content {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .theme-name {
+        min-width: 80px;
         font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .theme-images {
+        display: flex;
+        gap: 8px;
+        flex: 1;
     }
 
     img {
-        margin-left: 20px;
         vertical-align: middle;
-        width: 125px;
-        height: 125px;
+        width: 60px;
+        height: 60px;
         object-fit: cover;
+        border-radius: 8px;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        transition: transform 0.2s ease;
+    }
+
+    img:hover {
+        transform: scale(1.1);
     }
 
     button {
-      margin-left: 10px;
-      border-radius: 10px;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    button:active {
+        transform: translateY(0);
+    }
+
+    button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background-color: #90ee90 !important;
+    }
+
+    button:disabled:hover {
+        transform: none;
+    }
+
+    .purchase-btn {
+        background: linear-gradient(135deg, #00bfff 0%, #0080ff 100%);
+        color: white;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .purchase-btn:hover:not(:disabled) {
+        background: linear-gradient(135deg, #00d4ff 0%, #00bfff 100%);
+        box-shadow: 0 4px 12px rgba(0, 191, 255, 0.4);
     }
 
     #coin {
-        width: 35px;
-        height: 35px;
+        width: 20px;
+        height: 20px;
         vertical-align: middle;
-        margin-left: 2px;
-        margin-right: 0px;
+        margin: 0;
     }
 
     #coinCount {
-      position: absolute;
-      top: 3%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 10px;
-      border-radius: 5px;
-      font-size: 1.2rem;
-      color: rgb(0, 191, 255);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px 16px;
+      margin: 0 auto 20px;
+      background: rgba(230, 240, 250, 0.6);
+      border-radius: 8px;
+      border: 1px solid rgba(0, 128, 255, 0.15);
+    }
+
+    #coinCount .coin-icon {
+      width: 20px;
+      height: 20px;
+      animation: coinSpin 4s linear infinite;
+    }
+
+    @keyframes coinSpin {
+      0%, 100% {
+        transform: rotateY(0deg);
+      }
+      50% {
+        transform: rotateY(180deg);
+      }
+    }
+
+    #coinCount .count-label {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #555;
+    }
+
+    #coinCount .count-value {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #0080ff;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        padding-top: 8px;
     }
 
     #save {
-        display: block; 
-        margin: 0 auto;
-        border-radius: 8px; 
-        background-color: rgb(207, 247, 207);
-        color: rgb(0, 0, 0);
+        flex: 1;
+        max-width: 200px;
+        padding: 14px 28px;
+        background: linear-gradient(135deg, #0080ff 0%, #0056b3 100%);
+        color: white;
+        font-size: 1rem;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    #save:hover {
+        background: linear-gradient(135deg, #0099ff 0%, #0080ff 100%);
+        box-shadow: 0 4px 12px rgba(0, 128, 255, 0.4);
     }
 
     #reset {
-        display: block; 
-        margin: 0 auto;
-        border-radius: 8px;
-        background-color: rgb(255, 212, 212);
-        color: rgb(0, 0, 0);
+        flex: 1;
+        max-width: 200px;
+        padding: 14px 28px;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        color: rgb(0, 191, 255);
+        font-size: 1rem;
+        border: 2px solid rgba(0, 191, 255, 0.5);
+        text-shadow: 0 0 8px rgba(0, 191, 255, 0.5);
+    }
+
+    #reset:hover {
+        background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+        box-shadow: 0 4px 12px rgba(0, 191, 255, 0.3);
+        border-color: rgba(0, 191, 255, 0.8);
     }
 
     #freepik-link {
         display: block;
         text-align: center;
         margin-top: 20px;
-        position: absolute;
-        bottom: 10px;
-        left: 90%;
-        color:rgb(0, 191, 255);
+        color: rgba(0, 191, 255, 0.8);
         text-decoration: none;
+        font-size: 0.85rem;
+        transition: color 0.2s ease;
+    }
+
+    #freepik-link:hover {
+        color: rgb(0, 191, 255);
+        text-decoration: underline;
+    }
+
+    h1 {
+        text-align: center;
+        color: #0080ff;
+        margin: 0 0 4px 0;
+        font-size: 2rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
 
     </style>
   </head>
   <body>
-    <span id="coinCount"></span>
+    <div class="container">
     <form id="themes">
-      <label>
-        <label>
+      <h1>Choose Your Theme</h1>
+      <div id="coinCount">
+        <img class="coin-icon" src="images/Coin_no_back.png" alt="Sumite Coin">
+        <span class="count-label">Sumites:</span>
+        <span class="count-value" id="coinValue">0</span>
+      </div>
+      
+      <div class="theme-row">
+        <label class="theme-option">
           <input type="radio" name="theme" value="default">
-          Default
-          <img src="images/icon.png" alt="Default Theme" width="50" height="50">
-          <img src="images/Phishing_gif.gif" alt="Default Theme" width="50" height="50">
-          <button id="purchase-default" disabled>00<img id="coin" src="images/Coin_no_back.png" alt="Coin"></button>
+          <div class="theme-content">
+            <span class="theme-name">Default</span>
+            <div class="theme-images">
+              <img src="images/icon.png" alt="Default Theme">
+              <img src="images/Phishing_gif.gif" alt="Default Theme">
+            </div>
+            <button class="purchase-btn" id="purchase-default" disabled>00<img id="coin" src="images/Coin_no_back.png" alt="Coin"></button>
+          </div>
         </label>
-        <div style="width: 20px;"></div>
-        <label>
-          <input type="radio" name="theme" value="default2">
-          Default2
-          <img src="images/icon.png" alt="default2" width="50" height="50">
-          <img src="images/default2_gif.gif" alt="default2" width="50" height="50">
-          <button id="purchase-default2">5<img id="coin" src="images/Coin_no_back.png" alt="Coin"></button>
-        </label>
-      </label>
-      <br>
-      <label>
-        <label>
-          <input type="radio" name="theme" value="medieval">
-          Medieval
-          <img src="images/Medieval_still.png" alt="medieval" width="50" height="50">
-          <img src="images/Medieval_gif.gif" alt="medieval" width="50" height="50">
-          <button id="purchase-medieval">10<img id="coin" src="images/Coin_no_back.png" alt="Coin"></button>
-        </label>
-        <div style="width: 20px;"></div>
-        <label>
-          <input type="radio" name="theme" value="retro">
-          Retro
-          <img src="images/Retro_still.png" alt="Retro Theme" width="50" height="50">
-          <img src="images/Retro_gif.gif" alt="Retro Theme" width="50" height="50">
-          <button id="purchase-retro">15<img id="coin" src="images/Coin_no_back.png" alt="Coin"></button>
-        </label>
-      </label>
-      <br>
-      <label>
-        <label>
-          <input type="radio" name="theme" value="futuristic">
-          Techno
-          <img src="images/futuristic1.gif" alt="Futuristic Theme" width="50" height="50">
-          <img src="images/futuristic2.gif" alt="Futuristic Theme" width="50" height="50">
-          <button id="purchase-futuristic">20<img id="coin" src="images/Coin_no_back.png" alt="Coin"></button>
-        </label>
-        <div style="width: 20px;"></div>
-        <label>
-          <input type="radio" name="theme" value="psycho">
-          Psycho
-          <img src="images/Parrot_gif.gif" alt="Psycho Theme" width="50" height="50">
-          <img src="images/Kitten_gif.gif" alt="Psycho Theme" width="50" height="50">
-          <button id="purchase-psycho">50<img id="coin" src="images/Coin_no_back.png" alt="Coin"></button>
-        </label>
-      </label>
 
-      <label>
+        <label class="theme-option">
+          <input type="radio" name="theme" value="default2">
+          <div class="theme-content">
+            <span class="theme-name">Default2</span>
+            <div class="theme-images">
+              <img src="images/icon.png" alt="default2">
+              <img src="images/default2_gif.gif" alt="default2">
+            </div>
+            <button class="purchase-btn" id="purchase-default2">5<img id="coin" src="images/Coin_no_back.png" alt="Coin"></button>
+          </div>
+        </label>
+      </div>
+
+      <div class="theme-row">
+        <label class="theme-option">
+          <input type="radio" name="theme" value="medieval">
+          <div class="theme-content">
+            <span class="theme-name">Medieval</span>
+            <div class="theme-images">
+              <img src="images/Medieval_still.png" alt="medieval">
+              <img src="images/Medieval_gif.gif" alt="medieval">
+            </div>
+            <button class="purchase-btn" id="purchase-medieval">10<img id="coin" src="images/Coin_no_back.png" alt="Coin"></button>
+          </div>
+        </label>
+
+        <label class="theme-option">
+          <input type="radio" name="theme" value="retro">
+          <div class="theme-content">
+            <span class="theme-name">Retro</span>
+            <div class="theme-images">
+              <img src="images/Retro_still.png" alt="Retro Theme">
+              <img src="images/Retro_gif.gif" alt="Retro Theme">
+            </div>
+            <button class="purchase-btn" id="purchase-retro">15<img id="coin" src="images/Coin_no_back.png" alt="Coin"></button>
+          </div>
+        </label>
+      </div>
+
+      <div class="theme-row">
+        <label class="theme-option">
+          <input type="radio" name="theme" value="futuristic">
+          <div class="theme-content">
+            <span class="theme-name">Techno</span>
+            <div class="theme-images">
+              <img src="images/futuristic1.gif" alt="Futuristic Theme">
+              <img src="images/futuristic2.gif" alt="Futuristic Theme">
+            </div>
+            <button class="purchase-btn" id="purchase-futuristic">20<img id="coin" src="images/Coin_no_back.png" alt="Coin"></button>
+          </div>
+        </label>
+
+        <label class="theme-option">
+          <input type="radio" name="theme" value="psycho">
+          <div class="theme-content">
+            <span class="theme-name">Psycho</span>
+            <div class="theme-images">
+              <img src="images/Parrot_gif.gif" alt="Psycho Theme">
+              <img src="images/Kitten_gif.gif" alt="Psycho Theme">
+            </div>
+            <button class="purchase-btn" id="purchase-psycho">50<img id="coin" src="images/Coin_no_back.png" alt="Coin"></button>
+          </div>
+        </label>
+      </div>
+
+      <div class="action-buttons">
         <button id="reset">Restore Purchases</button>
         <button id="save">Save Theme Choice</button> 
-      </label>
+      </div>
     </form>
 
-    <label>
-    <a id="freepik-link"href="http://www.freepik.com">Carbon Fiber Background Designed by starline / Freepik</a>
-    </label>
+    <a id="freepik-link" href="http://www.freepik.com">Carbon Fiber Background Designed by starline / Freepik</a>
+    </div>
     <script src="options.js"></script>
   </body>
 </html>
