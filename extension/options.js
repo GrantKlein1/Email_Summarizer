@@ -1,7 +1,7 @@
 chrome.storage.local.get({ coinCount: 0 }, (items) => {
     const coinCount = items.coinCount;
-    const coinCountElement = document.getElementById("coinCount");
-    coinCountElement.innerText = `Zenites: ${coinCount}`;
+    const coinValueElement = document.getElementById("coinValue");
+    coinValueElement.innerText = coinCount;
   });
 
 document.querySelectorAll('button').forEach((button) => {
@@ -31,17 +31,22 @@ document.querySelectorAll('button').forEach((button) => {
             coins += 50;
           }
       });
-      chrome.storage.local.set({ theme: "default", coinCount: coins, purchasedThemes: [] }, () => {
-        console.log("✅ Purchases reset to default");
+      chrome.storage.local.set({ coinCount: coins, purchasedThemes: [] }, () => {
+        chrome.storage.sync.set({ theme: "default" }, () => {
+          console.log("✅ Purchases reset to default");
+          
+          // Update UI after storage is set
+          const defaultRadio = document.querySelector('input[name="theme"][value="default"]');
+          defaultRadio.checked = true;
+          
+          // Update coin count display
+          const coinValueElement = document.getElementById("coinValue");
+          coinValueElement.innerText = coins;
+          
+          buttonManager();
+        });
       });
-      return;
     });
-
-      const defaultRadio = document.querySelector('input[name="theme"][value="default"]');
-      defaultRadio.checked = true;
-      console.log(defaultRadio.checked);
-
-      restoreOptions();
       return;
     }
 
@@ -148,5 +153,4 @@ const buttonManager = () => {
 document.addEventListener('DOMContentLoaded', () => {
   restoreOptions();
   buttonManager();
-
 });
