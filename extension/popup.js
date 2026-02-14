@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   chrome.storage.local.get({ coinCount: 0 }, (items) => {
     const coinCountElement = document.getElementById("coinCount");
-    coinCountElement.innerText = `Scamites: ${items.coinCount}`;
+    coinCountElement.innerText = `Sumites: ${items.coinCount}`;
     coinCountElement.style.backgroundImage = "url('images/Carbon_fiber.jpg')";
     coinCountElement.style.backgroundSize = "cover";
   });
@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     chrome.storage.local.get({ coinCount: 0 }, (items) => {
       const coinCountElement = document.getElementById("coinCount");
-      coinCountElement.innerText = `Scamites: ${items.coinCount}`;
+      coinCountElement.innerText = `Sumites: ${items.coinCount}`;
     });
   });
 });
@@ -107,9 +107,64 @@ chrome.runtime.onMessage.addListener((message) => {
   if (message.type === "COIN_COUNT_UPDATED") {
     chrome.storage.local.get({ coinCount: 0 }, (items) => {
       const coinCountElement = document.getElementById("coinCount");
-      coinCountElement.innerText = `Scamites: ${items.coinCount}`;
+      coinCountElement.innerText = `Sumites: ${items.coinCount}`;
     });
   }
+  
+  if (message.type === "EMAIL_ALREADY_CHECKED") {
+    // Revert button to original state
+    const checkBtn = document.getElementById("checkBtn");
+    checkBtn.classList.remove("playing");
+    
+    chrome.storage.sync.get({ theme: "default" }, (items) => {
+      const theme = items.theme;
+      
+      let buttonImage;
+      switch (theme) {
+        case "default":
+          buttonImage = "images/icon.png";
+          checkBtn.style.color = "white";
+          break;
+        case "futuristic":
+          buttonImage = "images/futuristic1.gif";
+          checkBtn.style.color = "white";
+          break;
+        case "medieval":
+          buttonImage = "images/Medieval_still.png";
+          checkBtn.style.color = "white";
+          break;
+        case "retro":
+          buttonImage = "images/Retro_still.png";
+          checkBtn.style.color = "white";
+          break;
+        case "default2":
+          buttonImage = "images/icon.png";
+          checkBtn.style.color = "white";
+          break;
+        case "psycho":
+          buttonImage = "images/Kitten_gif.gif";
+          checkBtn.style.color = "white";
+          break;
+        default:
+          buttonImage = "images/icon.png";
+          checkBtn.style.color = "white";
+      }
+      
+      checkBtn.style.backgroundImage = `url(${buttonImage})`;
+    });
+    
+    showNotification("Email Already Checked");
+  }
 });
+
+function showNotification(message) {
+  const notification = document.getElementById("notification");
+  notification.innerText = message;
+  notification.classList.add("show");
+  
+  setTimeout(() => {
+    notification.classList.remove("show");
+  }, 1500);
+}
 
 
